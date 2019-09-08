@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.SkyStone.r1;
+package org.firstinspires.ftc.teamcode.SkyStone.V1liftGrab;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -14,5 +14,12 @@ public class Tele_r1 extends Config_r1 {
     @Override
     public void loop() {
         robot.drive.mecanum.updateMecanum(gamepad1,1);
+        lift.liftPower(gamepad1.right_stick_y);
+        if (gamepad1.right_bumper){
+            lift.closeGrab();
+        } else if (gamepad1.left_bumper){
+            lift.openGrab();
+        }
     }
 }
+
