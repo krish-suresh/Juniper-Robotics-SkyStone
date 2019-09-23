@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.SkyStone.V1liftGrab;
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "PID")
+@Disabled
 public class PracticePID extends OpMode {
 
     PIDFController pid = new PIDFController(new PIDCoefficients(0.0005,0,0));

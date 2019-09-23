@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.SkyStone;
+package org.firstinspires.ftc.teamcode.SkyStone.V2;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
