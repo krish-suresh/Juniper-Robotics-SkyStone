@@ -38,24 +38,27 @@ public abstract class Config_r1 extends PSConfigOpMode {
     }
     class Lift {
         MotorEx liftMotor;
-        Servo grabber;
+        Servo grabberLeft;
+        Servo grabberRight;
         double motorPowerAdding = 0;
         public Lift(){
             liftMotor = robot.motorHandler.newMotor("lift",20);
             liftMotor.motorObject.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            grabber = hardwareMap.servo.get("grab");
+            grabberLeft = hardwareMap.servo.get("grabL");
+            grabberRight = hardwareMap.servo.get("grabR");
         }
         public void liftPower(double power){
             liftMotor.setPower(power+motorPowerAdding);
         }
         public void openGrab(){
             motorPowerAdding = 0.2;
-            grabber.setPosition(1);
+            grabberLeft.setPosition(0.5);
+            grabberRight.setPosition(0.5);
 
         }
         public void closeGrab(){
             motorPowerAdding = 0.1;
-            grabber.setPosition(0.5);
-        }
+            grabberLeft.setPosition(1);
+            grabberRight.setPosition(0);        }
     }
 }
