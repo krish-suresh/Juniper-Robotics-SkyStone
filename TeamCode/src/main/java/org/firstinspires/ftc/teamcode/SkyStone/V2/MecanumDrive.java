@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.SkyStone.V2;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.RobotLibsV2.Subsystem.Subsystem;
 
 import java.util.ArrayList;
@@ -43,7 +47,7 @@ public class MecanumDrive extends Subsystem {
         this.gamepad1 = opMode.gamepad1;
         for (DcMotorEx motor : driveMotors){
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            motor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,new PIDFCoefficients(10,0,0,0));
+//            motor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,new PIDFCoefficients(10,0,0,0));
         }
 
     }
@@ -52,6 +56,7 @@ public class MecanumDrive extends Subsystem {
     public void update() {
         setMecanum();
     }
+    //TODO fix this function it is really bad lol
     public void setMecanum(){
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
@@ -66,7 +71,21 @@ public class MecanumDrive extends Subsystem {
         leftBack.setPower(v3);
         rightBack.setPower(v4);
     }
-    public double getAngleFromGamepad(){
-        return Math.atan2(opMode.gamepad1.left_stick_x,opMode.gamepad1.left_stick_y);
-    }
+//    public double getAngleFromGamepad(){
+//        return Math.atan2(opMode.gamepad1.left_stick_x,opMode.gamepad1.left_stick_y);
+//    }
+//    class Gyro {
+//        BNO055IMU imu;
+//
+//        // State used for updating telemetry
+//        Orientation angles;
+//        Acceleration gravity;
+//
+//        public Gyro(){
+//            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+//            imu = opMode.hardwareMap.get(BNO055IMU.class, "imu");
+//            imu.initialize(parameters);
+//
+//        }
+//    }
 }

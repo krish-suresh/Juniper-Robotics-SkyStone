@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.RobotLibsV2.Subsystem.Subsystem;
 public class Intake extends Subsystem {
     public DcMotorEx intakeMotorRight;
     public DcMotorEx intakeMotorLeft;
+    public double intakePower;
     //Motors from robot orientation
     public OpMode opMode;
 
@@ -19,15 +20,11 @@ public class Intake extends Subsystem {
 
     @Override
     public void update() {
-        if (opMode.gamepad1.right_bumper) {
-            intakeMotorRight.setPower(1);
-            intakeMotorLeft.setPower(-1);
-        } else if (opMode.gamepad1.left_bumper) {
-            intakeMotorRight.setPower(-1);
-            intakeMotorLeft.setPower(1);
-        } else {
-            intakeMotorRight.setPower(0);
-            intakeMotorLeft.setPower(0);
-        }
+        intakePower = opMode.gamepad1.right_trigger-opMode.gamepad1.left_trigger;
+        updateIntakePower();
+    }
+    private void updateIntakePower(){
+        intakeMotorRight.setPower(-intakePower);
+        intakeMotorLeft.setPower(intakePower);
     }
 }
