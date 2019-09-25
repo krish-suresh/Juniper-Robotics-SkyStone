@@ -13,7 +13,7 @@ public class Robot {
     public OpMode opMode;
     //this opmode is the opmode that each tele or auto program extends, it will be passed through the constructor so that we can use gamepads,telemetry, hardwaremap etc.
 
-    //Subsystems
+    //Subsystems, all of them implement the Subsystem interface to insure they have an update method for the robot.update()
     public MecanumDrive mecanumDrive;
     public DepositLift depositLift;
     public Intake intake;
