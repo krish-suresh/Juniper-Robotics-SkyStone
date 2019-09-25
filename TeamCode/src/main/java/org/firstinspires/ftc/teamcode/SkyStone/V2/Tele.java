@@ -8,11 +8,11 @@ public class Tele extends OpMode {
     Robot robot;
     @Override
     public void init() {
-        robot = new Robot(this);
+        robot = new Robot(this);//constructs robot and gives access to opmode
     }
 
     @Override
     public void loop() {
-        robot.update();
+        robot.update();//updates all subsystems
     }
 }

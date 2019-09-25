@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.RobotLibsV2.Subsystem.Subsystem;
 
-public class Intake extends Subsystem {
+public class Intake implements Subsystem {
     public DcMotorEx intakeMotorRight;
     public DcMotorEx intakeMotorLeft;
     public double intakePower;
@@ -20,8 +20,8 @@ public class Intake extends Subsystem {
 
     @Override
     public void update() {
-        intakePower = opMode.gamepad1.right_trigger-opMode.gamepad1.left_trigger;
-        updateIntakePower();
+        intakePower = opMode.gamepad1.right_trigger-opMode.gamepad1.left_trigger; // triggers activate lift
+        updateIntakePower();//updates the intake motor powers to the intakePower
     }
     private void updateIntakePower(){
         intakeMotorRight.setPower(-intakePower);
