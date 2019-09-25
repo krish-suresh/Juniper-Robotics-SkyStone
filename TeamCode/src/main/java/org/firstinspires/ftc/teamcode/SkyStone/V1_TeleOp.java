@@ -73,9 +73,9 @@ public class V1_TeleOp extends OpMode{
     //scaled drive for more low-end control
     public void scaledUpdateDriveTrain() {
 
-        double forward = signReflectedPowerOf(gamepad1.left_stick_y, GAME_PAD_COEFF);
-        double turning = signReflectedPowerOf(gamepad1.right_stick_x, GAME_PAD_COEFF);
-        double strafing = signReflectedPowerOf(gamepad1.left_stick_x, GAME_PAD_COEFF);
+        double forward = signReflectedPowerOf(gamepad1.left_stick_y, GAME_PAD_COEFF);           //left stick y gives forward motion
+        double turning = signReflectedPowerOf(gamepad1.right_stick_x, GAME_PAD_COEFF);          //right stick x gives rotational motion
+        double strafing = signReflectedPowerOf(gamepad1.left_stick_x, GAME_PAD_COEFF);          //left stick x gives strafing (side-to-side) motion
 
         leftFront.setPower(calculateMotorPower(forward, turning, strafing, 1.0, 1.0));
         rightFront.setPower(calculateMotorPower(forward, turning, strafing, -1.0, -1.0));
