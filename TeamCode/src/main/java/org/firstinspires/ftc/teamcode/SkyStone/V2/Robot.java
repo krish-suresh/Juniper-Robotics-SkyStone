@@ -17,24 +17,34 @@ public class Robot {
     public MecanumDrive mecanumDrive;
     public DepositLift depositLift;
     public Intake intake;
+    public TelemetryDisplay telemetryDisplay;
     List<Subsystem> subsystems;
 
     /**
      * @param mode the opmode from the class who uses the robot to allow this class to have access to gamepads,telemetry, hardwaremap etc.
      */
-    public Robot(OpMode mode){
+    public Robot(OpMode mode) {
         opMode = mode;
         mecanumDrive = new MecanumDrive(opMode);
         intake = new Intake(opMode);
-        subsystems = Arrays.asList(mecanumDrive,intake);//list of subsystems so that we can update all at once
+        depositLift = new DepositLift(opMode);
+//        telemetryDisplay = new TelemetryDisplay(opMode);
+        subsystems = Arrays.asList(mecanumDrive, intake, depositLift);//list of subsystems so that we can update all at once
     }
 
     /**
      * this function updates all the subsystems when called
      */
-    public void update(){
-        for (Subsystem subsystem:subsystems) {
-            subsystem.update();
+    public void update() {
+        for (Subsystem subsystem : subsystems) {
+            try {
+                subsystem.update();
+            } catch (Exception e) {
+                opMode.telemetry.clearAll();
+                opMode.telemetry.addLine(e.getMessage());
+
+            }
         }
+        opMode.telemetry.update();
     }
 }
