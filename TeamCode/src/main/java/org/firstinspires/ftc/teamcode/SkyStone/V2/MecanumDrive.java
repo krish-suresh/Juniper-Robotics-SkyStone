@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.SkyStone.V2;
 
+import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.drive.ThreeTrackingWheelLocalizer;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.Range;
 
@@ -131,5 +134,40 @@ public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive
 //    }
 
 //}
+class TrackingWheels extends Tracking {
+    public final double TICKS_PER_REV = 1;
+    public final double WHEEL_RADIUS = 2; // in
+    public final double GEAR_RATIO = 1; // output/input
 
+    public final double LATERAL_DISTANCE = 10; // in; distance between the left and right wheels
+    public final double FORWARD_OFFSET = 4; // in; offset of the lateral wheel
+
+    private DcMotor leftEncoder, rightEncoder, frontEncoder;
+
+    public TrackingWheels(HardwareMap hardwareMap) {
+        super(Arrays.asList(
+                new Vector2d(0, LATERAL_DISTANCE / 2), // left
+                new Vector2d(0, -LATERAL_DISTANCE / 2), // right
+                new Vector2d(FORWARD_OFFSET, 0) // front
+        ), Arrays.asList(0.0, 0.0, Math.PI / 2));
+
+        leftEncoder = hardwareMap.dcMotor.get("leftEncoder");
+        rightEncoder = hardwareMap.dcMotor.get("rightEncoder");
+        frontEncoder = hardwareMap.dcMotor.get("frontEncoder");
+    }
+
+    public double encoderTicksToInches(int ticks) {
+        return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;
+    }
+
+    @NotNull
+    @Override
+    public List<Double> getWheelPositions() {
+        return Arrays.asList(
+                encoderTicksToInches(leftEncoder.getCurrentPosition()),
+                encoderTicksToInches(rightEncoder.getCurrentPosition()),
+                encoderTicksToInches(frontEncoder.getCurrentPosition())
+        );
+    }
+}
 }
