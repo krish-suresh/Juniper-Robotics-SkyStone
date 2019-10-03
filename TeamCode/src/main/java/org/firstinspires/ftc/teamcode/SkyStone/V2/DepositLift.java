@@ -11,6 +11,8 @@ import org.firstinspires.ftc.teamcode.RobotLibsV2.Subsystem.Subsystem;
 import org.opencv.core.Range;
 
 public class DepositLift implements Subsystem{
+    private final double ROTATION_DEFAULT = 0.5;
+    private final double ROTATION_ROTATE = 0;
     public DcMotorEx liftMotor;
     public Servo grab;
     public Servo rotation;
@@ -37,6 +39,7 @@ public class DepositLift implements Subsystem{
         rotation = opMode.hardwareMap.get(Servo.class,"D.R");
         extR = opMode.hardwareMap.get(CRServo.class,"E.R");
         extL = opMode.hardwareMap.get(CRServo.class,"E.L");
+
     }
     @Override
     public void update() {
@@ -46,9 +49,15 @@ public class DepositLift implements Subsystem{
         } else if(opMode.gamepad1.x) {
             grab.setPosition(GRAB_OPEN);
         }
-        extensionPower = opMode.gamepad1.right_bumper?EXTENSION_SPEED:(opMode.gamepad1.left_bumper?-EXTENSION_SPEED:0);
-        extR.setPower(extensionPower);
+//        extensionPower = opMode.gamepad1.right_bumper?EXTENSION_SPEED:(opMode.gamepad1.left_bumper?-EXTENSION_SPEED:0);
+        extensionPower = opMode.gamepad1.right_stick_y*EXTENSION_SPEED;
+        extL.setPower(extensionPower);
         extR.setPower(-extensionPower);
+        if (opMode.gamepad2.dpad_right) {
+            rotation.setPosition(ROTATION_DEFAULT);
+        } else if(opMode.gamepad2.dpad_left) {
+            rotation.setPosition(ROTATION_ROTATE);
+        }
 //        rPos = com.qualcomm.robotcore.util.Range.clip(rPos+(opMode.gamepad1.left_bumper?incVal:(opMode.gamepad1.right_bumper?-incVal:0)),-1,1);
 //        lPos = com.qualcomm.robotcore.util.Range.clip(lPos+(opMode.gamepad1.left_bumper?-incVal:(opMode.gamepad1.right_bumper?incVal:0)),-1,1);
 //
