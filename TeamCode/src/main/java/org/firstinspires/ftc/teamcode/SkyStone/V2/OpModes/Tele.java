@@ -1,9 +1,11 @@
-package org.firstinspires.ftc.teamcode.SkyStone.V2;
+package org.firstinspires.ftc.teamcode.SkyStone.V2.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "V2Tele")
+import org.firstinspires.ftc.teamcode.SkyStone.V2.Subsystems.Robot;
+
+@TeleOp(name = "Tele")
 public class Tele extends OpMode {
     Robot robot;
     @Override

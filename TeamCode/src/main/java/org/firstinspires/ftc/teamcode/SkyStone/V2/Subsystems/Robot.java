@@ -1,10 +1,9 @@
-package org.firstinspires.ftc.teamcode.SkyStone.V2;
+package org.firstinspires.ftc.teamcode.SkyStone.V2.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.RobotLibsV2.Subsystem.Subsystem;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +16,7 @@ public class Robot {
     public MecanumDrive mecanumDrive;
     public DepositLift depositLift;
     public Intake intake;
+    public Camera camera;
     public TelemetryDisplay telemetryDisplay;
     List<Subsystem> subsystems;
 
@@ -28,6 +28,7 @@ public class Robot {
         mecanumDrive = new MecanumDrive(opMode);
         intake = new Intake(opMode);
         depositLift = new DepositLift(opMode);
+//        camera= new Camera(opMode);
 //        telemetryDisplay = new TelemetryDisplay(opMode);
         subsystems = Arrays.asList(mecanumDrive, intake, depositLift);//list of subsystems so that we can update all at once
     }

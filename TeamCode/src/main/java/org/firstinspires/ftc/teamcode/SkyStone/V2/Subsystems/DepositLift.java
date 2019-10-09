@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.SkyStone.V2;
+package org.firstinspires.ftc.teamcode.SkyStone.V2.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -11,13 +11,12 @@ import org.firstinspires.ftc.teamcode.RobotLibsV2.Subsystem.Subsystem;
 import org.opencv.core.Range;
 
 public class DepositLift implements Subsystem{
-    private final double ROTATION_DEFAULT = 0.5;
-    private final double ROTATION_ROTATE = 0;
+    private final double ROTATION_DEFAULT = 0.9;
+    private final double ROTATION_ROTATE = 0.35;
     public DcMotorEx liftMotor;
     public Servo grab;
     public Servo rotation;
-    public CRServo extR;
-    public CRServo extL;
+    public CRServo extention;
     //TODO auto encoder heights for lift
     //TODO Mag sensor for bottoming out lift
     public OpMode opMode;
@@ -37,33 +36,24 @@ public class DepositLift implements Subsystem{
         liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         grab = opMode.hardwareMap.get(Servo.class,"D.G");
         rotation = opMode.hardwareMap.get(Servo.class,"D.R");
-        extR = opMode.hardwareMap.get(CRServo.class,"E.R");
-        extL = opMode.hardwareMap.get(CRServo.class,"E.L");
+        extention = opMode.hardwareMap.get(CRServo.class,"D.E");
 
     }
     @Override
     public void update() {
         liftMotor.setPower((opMode.gamepad1.dpad_up?1:(opMode.gamepad1.dpad_down?-0.4:0)+0.2));
-        if (opMode.gamepad1.a){
+        if (opMode.gamepad1.y){
             grab.setPosition(GRAB_CLOSE);
         } else if(opMode.gamepad1.x) {
             grab.setPosition(GRAB_OPEN);
         }
-//        extensionPower = opMode.gamepad1.right_bumper?EXTENSION_SPEED:(opMode.gamepad1.left_bumper?-EXTENSION_SPEED:0);
-        extensionPower = opMode.gamepad1.right_stick_y*EXTENSION_SPEED;
-        extL.setPower(extensionPower);
-        extR.setPower(-extensionPower);
+        extention.setPower(opMode.gamepad1.right_bumper?-0.5:(opMode.gamepad1.left_bumper?0.5:0));
+
         if (opMode.gamepad2.dpad_right) {
             rotation.setPosition(ROTATION_DEFAULT);
         } else if(opMode.gamepad2.dpad_left) {
             rotation.setPosition(ROTATION_ROTATE);
         }
-//        rPos = com.qualcomm.robotcore.util.Range.clip(rPos+(opMode.gamepad1.left_bumper?incVal:(opMode.gamepad1.right_bumper?-incVal:0)),-1,1);
-//        lPos = com.qualcomm.robotcore.util.Range.clip(lPos+(opMode.gamepad1.left_bumper?-incVal:(opMode.gamepad1.right_bumper?incVal:0)),-1,1);
-//
-//        extR.setPosition(rPos);
-//        extL.setPosition(lPos);
     }
-
 
 }
