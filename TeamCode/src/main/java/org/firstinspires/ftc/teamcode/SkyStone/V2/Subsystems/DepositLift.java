@@ -41,13 +41,13 @@ public class DepositLift implements Subsystem{
     }
     @Override
     public void update() {
-        liftMotor.setPower((opMode.gamepad1.dpad_up?1:(opMode.gamepad1.dpad_down?-0.4:0)+0.2));
-        if (opMode.gamepad1.y){
+        liftMotor.setPower((opMode.gamepad2.dpad_up?1:(opMode.gamepad2.dpad_down?-0.4:0)+0.2));
+        if (opMode.gamepad2.y){
             grab.setPosition(GRAB_CLOSE);
-        } else if(opMode.gamepad1.x) {
+        } else if(opMode.gamepad2.x) {
             grab.setPosition(GRAB_OPEN);
         }
-        extention.setPower(opMode.gamepad1.right_bumper?-0.5:(opMode.gamepad1.left_bumper?0.5:0));
+        extention.setPower(opMode.gamepad2.right_bumper?-0.5:(opMode.gamepad2.left_bumper?0.5:0));
 
         if (opMode.gamepad2.dpad_right) {
             rotation.setPosition(ROTATION_DEFAULT);

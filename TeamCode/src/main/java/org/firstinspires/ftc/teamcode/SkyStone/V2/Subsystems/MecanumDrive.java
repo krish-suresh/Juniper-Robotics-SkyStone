@@ -28,6 +28,7 @@ import java.util.List;
 import static java.lang.Math.abs;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
 
 
 public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive implements Subsystem {
@@ -97,43 +98,24 @@ public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive
 
     }
 
-    public void setMecanum(double angle, double speed, double rotation) {
-        double scale = 1;//bad
-        speed = .5 * Math.pow(2 * (speed - .5), 3) + .5;//move outside this function
-        rotation = .5 * Math.pow(2 * (rotation - .5), 3) + .5;//move outside this function
-        angle += Math.PI / 4;
-        speed *= Math.sqrt(2);
-
-        double sinDir = sin(angle);
-        double cosDir = cos(angle);
-        double multipliers[] = new double[4];
-        multipliers[0] = (speed * sinDir) + rotation;
-        multipliers[1] = (speed * cosDir) + rotation;
-        multipliers[2] = (speed * -cosDir) + rotation;
-        multipliers[3] = (speed * -sinDir) + rotation;
-
-        double largest = abs(multipliers[0]);
-        for (int i = 1; i < 4; i++) {
-            if (abs(multipliers[i]) > largest)
-                largest = abs(multipliers[i]);
-        }
-
-        // Only normalize multipliers if largest exceeds 1.0
-        if (largest > 1.0) {
-            for (int i = 0; i < 4; i++) {
-                multipliers[i] = multipliers[i] / largest;
-            }
-        }
-
-        leftFront.setPower(Range.clip(multipliers[0] * scale, -1, 1));
-        rightFront.setPower(Range.clip(multipliers[1] * scale, -1, 1));
-        leftBack.setPower(Range.clip(multipliers[2] * scale, -1, 1));
-        rightBack.setPower(Range.clip(multipliers[0] * scale, -1, 1));
-
+    private static double mecSpinFromJoystick(Gamepad pad) {
+        return (abs(pad.right_stick_x) > 0.05f)
+                ? pad.right_stick_x : 0.0;
     }
 
-    public void updateMecanum(Gamepad gamepad, double scaling) {
-        setMecanum(Math.hypot(gamepad.left_stick_x, gamepad.left_stick_y), scaling * Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4, gamepad.right_stick_x * scaling);
+    private static double mecDirectionFromJoystick(Gamepad pad) {
+        return Math.atan2(-pad.left_stick_y, pad.left_stick_x);
+    }
+
+    private static double mecSpeedFromJoystick(Gamepad pad) {
+        // If the joystick is close enough to the middle, return a 0 (no movement)
+        if (abs(pad.left_stick_x) < 0.05f
+                && abs(pad.left_stick_y) < 0.05f) {
+            return 0.0;
+        } else {
+            return sqrt((pad.left_stick_y * pad.left_stick_y)
+                    + (pad.left_stick_x * pad.left_stick_x));
+        }
     }
 
     public void updateMecanumThirdPerson(Gamepad gamepad, double scaling) {
